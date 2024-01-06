@@ -1,6 +1,7 @@
 <?php
 
-require('Controllers/loginController.php');
+
+require 'autoloader.php';
 
 
 if(isset($_GET['action'])) {
@@ -11,7 +12,7 @@ if(isset($_GET['action'])) {
             include('Views/signUp.php');
             break;
         case 'sign_up_action':
-            loginController::add_user();
+            Controllers\loginController::add_user();
             break;
         case 'login':
             include('Views/login.php');

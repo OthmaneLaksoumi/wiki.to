@@ -1,6 +1,8 @@
 <?php
+namespace Controllers;
+use Models\UsersDAO;
 
-include('Models/UsersDAO.php');
+require('autoloader.php');
 
 class loginController {
 

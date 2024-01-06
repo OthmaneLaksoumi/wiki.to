@@ -1,5 +1,6 @@
 <?php
-
+namespace Models;
+use PDO;
 require_once("db_config.php");
 
 class database {

@@ -1,7 +1,10 @@
 <?php
+namespace Models;
+use PDO;
+use PDOException;
 
-require('Models/database.php');
-require('Users.php');
+require('autoloader.php');
+
 
 class UsersDAO {
 
@@ -42,7 +45,6 @@ class UsersDAO {
         $stmt = $this->db->prepare($query);
         $stmt->execute(array($email));
         $result = $stmt->fetch(PDO::FETCH_ASSOC)[0];
-        // $resultObj = new Users($resultArray->getId(), );
     }
 
     public function get_all_users($role = "auteur") {
