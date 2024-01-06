@@ -6,12 +6,12 @@ ob_start();
 ?>
 
 <h2 class="text-center mt-4">Se connecter</h2>
-<form class="container form-control mt-5  login-form" method="post" action="index.php?action=login_action">
-    <div class="mb-3 ">
+<form class="container form-control mt-5 login-form" method="post" action="index.php?action=login_action">
+    <div class="mb-3 email-div">
         <label for="email" class="form-label">Email address</label>
         <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" required>
     </div>
-    <div class="mb-3">
+    <div class="mb-3 password-div">
         <label for="password" class="form-label">Mot de passe</label>
         <input type="password" class="form-control" name="password" id="password" required>
     </div>
@@ -25,6 +25,7 @@ ob_start();
     </div>
 </form>
 
+<script src="public/js/login_validation.js"></script>
 
 <?php $content = ob_get_clean(); ?>
 <?php include('Views/layout.php'); ?>

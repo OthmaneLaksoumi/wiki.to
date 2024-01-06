@@ -10,3 +10,7 @@
 .login button {
     margin-top: 20px;
 }
+
+.input-not-valid {
+    border: red solid 1px;
+}
