@@ -16,6 +16,11 @@ if(isset($_GET['action'])) {
             break;
         case 'login':
             include('Views/login.php');
+            break;
+        case 'login_action':
+            Controllers\loginController::check_user();
+            break;
+
     }
 
 

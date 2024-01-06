@@ -1,9 +1,12 @@
-.sign-up-form {
+.sign-up-form,
+.login-form {
     max-width: 500px;
     padding: 40px 40px;
 }
 
 .sign-up-form div,
-.sign-up-form button {
+.sign-up-form button,
+.login div,
+.login button {
     margin-top: 20px;
 }

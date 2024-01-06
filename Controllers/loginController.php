@@ -4,18 +4,32 @@ use Models\UsersDAO;
 
 require('autoloader.php');
 
+
 class loginController {
 
 
     public static function add_user() {
         extract($_POST);
         $userDAO = new UsersDAO();
-        $userDAO->add_user($email, $name, $password);
-        if(!$exit_user) {
+        if(!$userDAO->add_user($email, $name, $password)) {
+            $user_existence = false;
+            include('Views/signUp.php');
+        } else {
             header('location: index.php');
         }
     }
 
+    public static function check_user() {
+        extract($_POST);
+        $userDAO = new UsersDAO();
+        if(!$userDAO->check_user($email, $password)) {
+            $user_existence = false;
+            include('Views/login.php');
+        } else {
+            header('location: index.php');
+        }
+
+    }
 
 }
 

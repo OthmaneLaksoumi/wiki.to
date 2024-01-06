@@ -19,8 +19,8 @@ ob_start();
         <label for="password" class="form-label">Mot de passe</label>
         <input type="password" class="form-control" name="password" id="password" required>
     </div>
-    <?php if (isset($exit_user) && $exit_user = true) { ?>
-        <div class="mb-3">
+    <?php if (isset($user_existence) && $user_existence == false) { ?>
+        <div class="mb-3 text-danger">
             <label class="form-label">Cette adresse e-mail est déjà associée à un utilisateur existant dans la base de données.</label>
         </div>
     <?php } ?>

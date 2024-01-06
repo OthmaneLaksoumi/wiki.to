@@ -30,14 +30,28 @@ class UsersDAO {
                 $name,
                 $password_hashed
             ));
-            $exit_user = false;
+            $user_existence = true;
         }catch(PDOException $e) {
             if(str_contains($e->errorInfo[2], 'Duplicate')) {
-                $exit_user = true;
+                $user_existence = false;
             }
-            include('Views/signUp.php');
         }
-    
+        return $user_existence;
+    }
+
+    public function check_user($email, $password) {
+        $query = "SELECT * FROM `users` WHERE `email` = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute(array($email));
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(!$result) { // Check if the email exist
+            return false; 
+        } else { // Check if the password is correct
+            if(!password_verify($password, $result['password'])) {
+                return false;
+            } 
+        }
+        return true; // Si on passe a cette ligne alors mot de passe est vraie
     }
 
     public function get_user_by_email($email) {
