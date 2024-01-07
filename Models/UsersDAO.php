@@ -63,10 +63,26 @@ class UsersDAO {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function get_user_by_id($id) {
+        $query = "SELECT * FROM `users` WHERE `user_id` = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute(array($id));
+        $user =  $stmt->fetch(PDO::FETCH_ASSOC);
+        return new Users($user['user_id'], $user['email'], $user['name'], $user['password'], $user['role']);
+    }
+
+
+
     public function get_all_users($role = "auteur") {
         $query = "SELECT * FROM `users` WHERE `role` = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute(array($role));
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $usersObj = array();
+        foreach($users as $user) {
+            $usersObj[] = new Users($user['user_id'], $user['email'], $user['name'], $user['password'], $user['role']);
+        }
+        return $usersObj;
     }
 }
 

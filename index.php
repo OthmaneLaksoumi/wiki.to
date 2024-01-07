@@ -19,6 +19,9 @@ if(isset($_GET['action'])) {
         case 'login_action':
             Controllers\loginController::check_user();
             break;
+        case 'wiki_page':
+            // Controllers\loginController::wiki_page();
+            // break;
 
     }
 
