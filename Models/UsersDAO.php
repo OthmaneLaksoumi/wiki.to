@@ -22,13 +22,15 @@ class UsersDAO {
     public function add_user($email, $name, $password) {
         $query = "INSERT INTO users (`email`, `name`, `password`) 
                     VALUES (?,?,?)";
-        $password_hashed = password_hash($password, PASSWORD_DEFAULT);
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $filtred_email = filter_var($email, FILTER_SANITIZE_EMAIL);
+        $filtred_name = htmlspecialchars($name);
         $stmt = $this->db->prepare($query);
         try {
             $stmt->execute(array(
-                $email,
-                $name,
-                $password_hashed
+                $filtred_email,
+                $filtred_name,
+                $hashed_password
             ));
             $user_existence = true;
         }catch(PDOException $e) {
@@ -58,7 +60,7 @@ class UsersDAO {
         $query = "SELECT * FROM `users` WHERE `email` = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute(array($email));
-        $result = $stmt->fetch(PDO::FETCH_ASSOC)[0];
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function get_all_users($role = "auteur") {

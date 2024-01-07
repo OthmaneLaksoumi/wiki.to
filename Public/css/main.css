@@ -14,3 +14,7 @@
 .input-not-valid {
     border: red solid 1px;
 }
+
+a {
+    text-decoration: none;
+}

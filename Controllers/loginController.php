@@ -26,6 +26,7 @@ class loginController {
             $user_existence = false;
             include('Views/login.php');
         } else {
+            $_SESSION['user'] = $email;
             header('location: index.php');
         }
 
