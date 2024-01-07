@@ -6,7 +6,7 @@ use PDO;
 use PDOException;
 
 
-// require('autoloader.php');
+require('autoloader.php');
 
 
 class WikisDAO
@@ -28,7 +28,7 @@ class WikisDAO
         $wikisObj = array();
         $userDAO = new UsersDAO();
         foreach ($wikis as $wiki) {
-            $user = $userDAO->get_user_by_id($wiki['id']);
+            $user = $userDAO->get_user_by_id($wiki['auteur_id']);
             $catg = new Categories($wiki['catg_name']);
             $wikisObj[] = new Wikis($wiki['id'], $user, $wiki['title'], $wiki['contenu'], $wiki['img'], $catg, $wiki['created_at']);
         }
@@ -41,22 +41,26 @@ class WikisDAO
         $stmt = $this->db->prepare($query);
         $stmt->execute(array($id));
         $wiki = $stmt->fetch(PDO::FETCH_ASSOC);
-        $userDAO = new UsersDAO();
-        $user = $userDAO->get_user_by_id($wiki['id']);
-        $catg = new Categories($wiki['catg_name']);
-        return new Wikis($wiki['id'], $user, $wiki['title'], $wiki['contenu'], $wiki['img'], $catg, $wiki['created_at']);
+        if ($wiki == NULL) {
+            return NULL;
+        } else {
+            $userDAO = new UsersDAO();
+            $user = $userDAO->get_user_by_id($wiki['auteur_id']);
+            $catg = new Categories($wiki['catg_name']);
+            return new Wikis($wiki['id'], $user, $wiki['title'], $wiki['contenu'], $wiki['img'], $catg, $wiki['created_at']);
+        }
     }
 
-    public function get_tags_for_wiki($wiki_id) {
+    public function get_tags_for_wiki($wiki_id)
+    {
         $query = "SELECT * FROM `wiki_tags` WHERE `wiki_id` = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$wiki_id]);
         $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $tagsObj = array();
 
-        foreach($tags as $tag) {
+        foreach ($tags as $tag) {
             $tagsObj[] = new Tags($tag['tag_name']);
         }
-
     }
 }
