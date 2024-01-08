@@ -62,5 +62,29 @@ class WikisDAO
         foreach ($tags as $tag) {
             $tagsObj[] = new Tags($tag['tag_name']);
         }
+        return $tagsObj;
     }
+
+    public function add_wiki($wiki){
+
+        $query = "INSERT INTO `wikis`
+        (
+            auteur_id,
+            title,
+            contenu,
+            img,
+            catg_name    
+        ) VALUES (?,?,?,?,?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$wiki->getAuteur(), $wiki->getTitle(), $wiki->getContenu(), $wiki->getImg(), $wiki->getCatg()]);
+        $lastinsert = $this->db->lastInsertId();
+        return $lastinsert;        
+    }
+
+    public function add_wiki_tags($wiki_id, $tag_name) {
+        $query = "INSERT INTO `wiki_tags` VALUES (?,?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$wiki_id, $tag_name]);
+    }
+
 }

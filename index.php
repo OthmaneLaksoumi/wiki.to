@@ -29,6 +29,9 @@ if (isset($_GET['action'])) {
         case 'add_wiki':
             WikisController::add_wiki();
             break;
+        case 'add_wiki_action':
+            WikisController::add_wiki_action();
+            break;
         
     }
 } else {

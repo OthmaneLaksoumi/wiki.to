@@ -60,7 +60,8 @@ class UsersDAO {
         $query = "SELECT * FROM `users` WHERE `email` = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute(array($email));
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return new Users($user['user_id'], $user['email'], $user['name'], $user['password'], $user['role']);
     }
 
     public function get_user_by_id($id) {
@@ -68,8 +69,9 @@ class UsersDAO {
         $stmt = $this->db->prepare($query);
         $stmt->execute(array($id));
         $user =  $stmt->fetch(PDO::FETCH_ASSOC);
-        // $userr =  new Users($user['user_id'], $user['email'], $user['name'], $user['password'], $user['role']);
-        return new Users($user['user_id'], $user['email'], $user['name'], $user['password'], $user['role']);;
+        $userr =  new Users($user['user_id'], $user['email'], $user['name'], $user['password'], $user['role']);
+        // return new Users($user['user_id'], $user['email'], $user['name'], $user['password'], $user['role']);;
+        return $userr;
     }
 
 
