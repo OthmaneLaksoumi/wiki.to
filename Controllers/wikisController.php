@@ -68,9 +68,11 @@ class WikisController
         //     $image_size = true;
         //     // include('Views/add_wiki.php');
         //     header('location: index.php?actio=add_wiki&image_size=true');
+        //      exit();
         // } else if(!in_array($_FILES['img']['type'], $allowed_images_type)){
         //     $image_type = true;
         //     header('location: index.php?action=add_wiki');
+        //      exit();
         //     // include('Views/add_wiki.php');
         // } else {
         // }
@@ -79,5 +81,77 @@ class WikisController
             $wikiDAO->add_wiki_tags($last_inset, $tag);
         }
         header('location: index.php');
+        exit();
+    }
+
+
+    public static function my_wikis()
+    {
+        $userDAO = new UsersDAO();
+        $user = $userDAO->get_user_by_email($_SESSION['user']);
+        $wikisDAO = new WikisDAO();
+        $wikis = $wikisDAO->get_wikis_for_user();
+        $tagsDAO = new TagsDAO();
+        $tags = [];
+        foreach ($wikis as $wiki) {
+            $tags[$wiki->getId()] = array();
+            foreach ($wikisDAO->get_tags_for_wiki($wiki->getId()) as $tag) {
+                $tags[$wiki->getId()][] = $tag->getName();
+            }
+        }
+
+        include('Views/my_wikis.php');
+    }
+
+    public static function edit_wiki()
+    {
+        $wiki_id = $_GET['wiki_id'];
+        $wikisDAO = new WikisDAO();
+        $wiki_selected = $wikisDAO->get_wiki_by_id($wiki_id);
+        $tags_selected = $wikisDAO->get_tags_for_wiki($wiki_id);
+
+        $categoriesDAO = new CategoriesDAO();
+        $categories = $categoriesDAO->get_all_catg();
+        $tagsDAO = new TagsDAO();
+        $tags = $tagsDAO->get_all_tags();
+        $catgDAO = new CategoriesDAO();
+        $catg_selected = $catgDAO->get_catg_for_wiki($wiki_id);
+        include('Views/edit_wiki.php');
+    }
+
+    public static function edit_wiki_action()
+    {
+        extract($_POST);
+        extract($_FILES);
+        // echo '<pre>';
+        // print_r($_POST);
+        // print_r($_FILES);
+        // echo '</pre>';
+        $wikisDAO = new WikisDAO();
+        $old_wiki = $wikisDAO->get_wiki_by_id($wiki_id);
+        if ($_FILES['img']['name'] == "") {
+            $wikisDAO->edit_wiki($wiki_id, $title, $content, $categorie);
+        } else {
+            $imageName = uniqid() . '.' . pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
+            $wikisDAO->edit_wiki($wiki_id, $title, $content, $categorie, "public/images/" . $imageName);
+            move_uploaded_file($_FILES['img']['tmp_name'], 'Public/images/' . $imageName);
+        }
+        /* Update tags for wiki selectec */
+        $wikisDAO->delete_wiki_tags($wiki_id);
+        foreach ($tags as $tag) {
+            $wikisDAO->add_wiki_tags($wiki_id, $tag);
+        }
+
+        header('location: index.php?action=my_wikis');
+        exit();
+    }
+
+    public static function delete_wiki()
+    {
+        $wiki_id = $_GET['wiki_id'];
+        $wikisDAO = new WikisDAO();
+        $wikisDAO->delete_wiki($wiki_id);
+        header('location: index.php?action=my_wikis');
+        exit();
     }
 }

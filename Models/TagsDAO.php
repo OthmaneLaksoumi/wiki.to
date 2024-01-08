@@ -20,10 +20,15 @@ class TagsDAO {
         $tagsObj = array();
 
         foreach($tags as $tag) {
-            $tagsObj[] = new Categories($tag['name']);
+            $tagsObj[] = new Tags($tag['name']);
         }
         return $tagsObj;
     }
+
+//     public function get_tags_for_wiki($wiki_id) {
+//         $query = "SELECT * FROM `wiki_tags` WHERE wiki"
+//     }
+
 }
 
 

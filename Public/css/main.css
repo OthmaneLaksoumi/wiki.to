@@ -26,3 +26,7 @@ a {
     align-items: center;
     background-color: #eee;
 }
+
+.edit-wiki-images {
+    max-width: 500px;
+}

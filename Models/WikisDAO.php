@@ -65,7 +65,8 @@ class WikisDAO
         return $tagsObj;
     }
 
-    public function add_wiki($wiki){
+    public function add_wiki($wiki)
+    {
 
         $query = "INSERT INTO `wikis`
         (
@@ -78,13 +79,67 @@ class WikisDAO
         $stmt = $this->db->prepare($query);
         $stmt->execute([$wiki->getAuteur(), $wiki->getTitle(), $wiki->getContenu(), $wiki->getImg(), $wiki->getCatg()]);
         $lastinsert = $this->db->lastInsertId();
-        return $lastinsert;        
+        return $lastinsert;
     }
 
-    public function add_wiki_tags($wiki_id, $tag_name) {
+    public function add_wiki_tags($wiki_id, $tag_name)
+    {
         $query = "INSERT INTO `wiki_tags` VALUES (?,?)";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$wiki_id, $tag_name]);
     }
 
+    public function delete_wiki_tags($wiki_id) {
+        $query = "DELETE FROM `wiki_tags` WHERE wiki_id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$wiki_id]);
+    }
+
+    public function get_wikis_for_user()
+    {
+        $query = "SELECT * FROM wikis WHERE `auteur_id` = ?";
+        $stmt = $this->db->prepare($query);
+        $userDAO = new UsersDAO();
+        $user = $userDAO->get_user_by_email($_SESSION['user']);
+        $stmt->execute([$user->getId()]);
+        $wikis = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $wikisObj = array();
+        foreach ($wikis as $wiki) {
+            $wikisObj[] = new Wikis($wiki['id'], $wiki['auteur_id'], $wiki['title'], $wiki['contenu'], $wiki['img'], $wiki['catg_name'], $wiki['created_at']);
+        }
+        return $wikisObj;
+    }
+
+    public function edit_wiki($wiki_id, $title, $contenu, $catg, $img = NULL)
+    {
+        if ($img == NULL) {
+            $query = "UPDATE `wikis` SET 
+                title = ?,
+                contenu = ?,
+                catg_name = ?
+                WHERE id = ?
+            ";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$title, $contenu, $catg, $wiki_id]);
+        } else {
+            $query = "UPDATE `wikis` SET 
+            title = ?,
+            contenu = ?,
+            img = ?,
+            catg_name = ?
+            WHERE id = ?
+        ";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$title, $contenu, $img, $catg, $wiki_id]);
+        }
+
+        
+    }
+
+    public function delete_wiki($wiki_id)
+    {
+        $query = "DELETE FROM `wikis` WHERE `id` = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$wiki_id]);
+    }
 }

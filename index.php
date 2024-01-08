@@ -32,6 +32,18 @@ if (isset($_GET['action'])) {
         case 'add_wiki_action':
             WikisController::add_wiki_action();
             break;
+        case 'my_wikis':
+            WikisController::my_wikis();
+            break;
+        case 'edit_wiki':
+            WikisController::edit_wiki();
+            break;
+        case 'edit_wiki_action':
+            WikisController::edit_wiki_action();
+            break;
+        case 'delete_wiki':
+            WikisController::delete_wiki();
+            break;
         
     }
 } else {

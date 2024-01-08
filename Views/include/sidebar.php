@@ -12,14 +12,10 @@
                             </li>
                         <?php } else { ?>
                             <li class="nav-item list-group-item mt-4">
-                                <a class="nav-link" href="index.php">Ajouter un wiki</a>
+                                <a class="nav-link" href="index.php">Crée un wiki</a>
                             </li>
-                            <li class="nav-item list-group-item">
-                                <a class="nav-link" href="index.php">Modifier un wiki</a>
-                            </li>
-                            <li class="nav-item list-group-item">
-                                <a class="nav-link" href="index.php">Supprimer un wiki</a>
-                            </li>
+                            
+                            
                         <?php  } ?>
                         <div>
                             <li class="nav-item list-group-item mt-4">

@@ -25,6 +25,16 @@ class CategoriesDAO {
         return $categoriesObj;
     }
 
+    public function get_catg_for_wiki($wiki_id) {
+        $query = "SELECT `name` FROM categories
+        INNER JOIN wikis ON categories.name = wikis.catg_name
+        WHERE wikis.id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$wiki_id]);
+        $result = $stmt->fetch();
+        return new Categories($result['name']);
+    }
+
 
 }
 
