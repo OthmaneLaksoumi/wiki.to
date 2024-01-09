@@ -34,6 +34,11 @@ class WikisController
             include('Views/wiki_not_found.php');
         } else {
             $wiki = $wikisDAO->get_wiki_by_id($_GET['wiki_id']);
+            $user = $wiki->getAuteur();
+            $date = strtotime($wiki->getCreated_at());
+            $date_posted = date("Y-m-d", $date);
+            $catg = $wiki->getCatg()->getName();
+            $tags = $wikisDAO->get_tags_for_wiki($_GET['wiki_id']);
             include('Views/wiki_page.php');
         }
     }
