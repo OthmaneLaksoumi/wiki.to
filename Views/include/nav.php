@@ -27,6 +27,9 @@
                     <li class="btn btn-outline-light">
                         <a href="index.php?action=logout" class="text-dark" style="text-decoration: none;">Se déconnecter</a>
                     </li>
+                    <li class="btn btn-outline-light mx-2">
+                        <a href="index.php?action=logout" class="text-dark text-white" style="text-decoration: none;"><?= $_SESSION['user'] ?></a>
+                    </li>
                 </ul>
             <?php } ?>
         </div>

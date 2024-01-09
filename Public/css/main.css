@@ -30,3 +30,7 @@ a {
 .edit-wiki-images {
     max-width: 500px;
 }
+
+.display-none {
+    display: none;
+}

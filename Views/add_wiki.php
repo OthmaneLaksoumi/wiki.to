@@ -9,61 +9,9 @@ ob_start();
 
 
 
-<div class="container mt-5 mb-5">
-    <div class="row">
 
-    <div class="col-md-3">
-            <div class="card mb-4 shadow-sm">
-                <div class="card-body">
-                    <ul class="list-group">
-                        <?php if (!isset($_SESSION['user'])) { ?>
-                            <li class="btn btn-outline-secondary list-group-item">
-                                <a href="index.php?action=sign_up" class="text-dark">S'inscrire</a>
-                            </li>
-
-                            <li class="btn mt-4 btn-outline-secondary list-group-item border">
-                                <a href="index.php?action=login" class="text-dark">Se connecter</a>
-                            </li>
-                        <?php } else if ($_SESSION['user'] == "auteur") { ?>
-                            <li class="nav-item list-group-item mt-4">
-                                <a class="nav-link" href="index.php?action=my_wikis">Mes wikis</a>
-                            </li>
-                            <li class="nav-item list-group-item">
-                                <a class="nav-link" href="index.php?action=add_wiki">Crée un wiki</a>
-                            </li>
-                            <div>
-                            <li class="nav-item list-group-item mt-4">
-                                <a class="nav-link" href="index.php">Home</a>
-                            </li>
-                        </div>
-
-                        <?php  } else { ?>
-                            <div>
-                            <li class="nav-item list-group-item mt-4">
-                                <a class="nav-link" href="index.php">Home</a>
-                            </li>
-                            <li class="nav-item list-group-item">
-                                <a class="nav-link" href="index.php">Categories</a>
-                            </li>
-                            <li class="nav-item list-group-item">
-                                <a class="nav-link" href="index.php">Tags</a>
-                            </li>
-                            <li class="nav-item list-group-item">
-                                <a class="nav-link" href="index.php">Auteurs</a>
-                            </li>
-                            <li class="nav-item list-group-item">
-                                <a class="nav-link" href="index.php">Statistiques</a>
-                            </li>
-                        </div>
-
-
-                        <?php } ?>
-                        
-                    </ul>
-                </div>
-            </div>
-        </div>
         <div class="col-md-9">
+            <h1 class="text-center mb-3">Ajouter un Wiki</h1>
             <form action="index.php?action=add_wiki_action" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="title">Title:</label>
@@ -110,8 +58,6 @@ ob_start();
 
         </div>
     </div>
-</div>
-</div>
 
 
 <?php $content = ob_get_clean(); ?>

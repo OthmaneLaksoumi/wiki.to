@@ -8,7 +8,7 @@ use Models\TagsDAO;
 use Models\Wikis;
 use Models\UsersDAO;
 
-class WikisController
+class wikisController
 {
 
 

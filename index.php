@@ -44,6 +44,30 @@ if (isset($_GET['action'])) {
         case 'delete_wiki':
             WikisController::delete_wiki();
             break;
+        case 'affiche_catgs':
+            CategoriesController::affiche_catgs();
+            break;
+        case 'add_catg':
+            CategoriesController::add_catg_action();
+            break;
+        case 'edit_catg_action':
+            CategoriesController::edid_catg_action();
+            break;
+        case 'delete_catg':
+            CategoriesController::delete_catg();
+            break;
+        case 'affiche_tags':
+            TagsController::affiche_tags();
+            break;
+        case 'add_tag_action':
+            TagsController::add_tag_action();
+            break;
+        case 'edit_tag_action':
+            TagsController::edid_tag_action();
+            break;
+        case 'delete_tag':
+            TagsController::delete_tag_action();
+            break;
         
     }
 } else {

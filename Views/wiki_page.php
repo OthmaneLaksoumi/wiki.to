@@ -8,8 +8,8 @@ if (isset($_GET['wiki_id'])) {
 
   <div class="container mt-4">
     <div class="row">
+      
       <div class="col-md-8">
-        <!-- Blog Posts -->
         <div class="card mb-4">
           <img src="<?= $wiki->getImg() ?>" class="card-img-top" alt="Blog Post Image">
           <div class="card-body">
@@ -17,11 +17,8 @@ if (isset($_GET['wiki_id'])) {
             <p class="card-text"><?= $wiki->getContenu() ?></p>
           </div>
         </div>
-
-        <!-- Repeat the above card structure for each blog post -->
-
       </div>
-      <!-- Sidebar -->
+
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
@@ -40,6 +37,7 @@ if (isset($_GET['wiki_id'])) {
           </div>
         </div>
       </div>
+
     </div>
   </div>
 
