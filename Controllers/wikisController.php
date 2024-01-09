@@ -23,6 +23,8 @@ class WikisController
                 $tags[$wiki->getId()][] = $tag->getName();
             }
         }
+        $userDAO = new UsersDAO();
+        if(isset($_SESSION['user'])) $user = $userDAO->get_user_by_email($_SESSION['user']);
 
         include('Views/home.php');
     }
@@ -46,6 +48,8 @@ class WikisController
     public static function add_wiki()
     {
         $categoriesDAO = new CategoriesDAO();
+        $userDAO = new UsersDAO();
+        $user = $userDAO->get_user_by_email($_SESSION['user']);
         $categories = $categoriesDAO->get_all_catg();
         $tagsDAO = new TagsDAO();
         $tags = $tagsDAO->get_all_tags();
@@ -114,6 +118,8 @@ class WikisController
         $wikisDAO = new WikisDAO();
         $wiki_selected = $wikisDAO->get_wiki_by_id($wiki_id);
         $tags_selected = $wikisDAO->get_tags_for_wiki($wiki_id);
+        $userDAO = new UsersDAO();
+        $user = $userDAO->get_user_by_email($_SESSION['user']);
 
         $categoriesDAO = new CategoriesDAO();
         $categories = $categoriesDAO->get_all_catg();

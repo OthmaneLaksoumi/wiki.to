@@ -1,5 +1,5 @@
 <?php
-
+if(!isset($_SESSION['user'])) {
 $title = "S'inscrire";
 
 ob_start();
@@ -33,3 +33,8 @@ ob_start();
 
 <?php $content = ob_get_clean(); ?>
 <?php include('Views/layout.php'); ?>
+
+<?php } else {
+    header('location: index.php');
+    
+}?>

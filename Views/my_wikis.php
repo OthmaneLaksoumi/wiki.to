@@ -1,4 +1,5 @@
 <?php
+if(isset($_SESSION['user'])  && $user->getRole() == "auteur") {
 
 $title = "Mes wikis";
 
@@ -126,3 +127,8 @@ ob_start();
 
 <?php $content = ob_get_clean(); ?>
 <?php include('Views/layout.php'); ?>
+
+<?php } else {
+    header('location: index.php');
+    
+}?>

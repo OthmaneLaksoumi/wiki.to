@@ -22,27 +22,47 @@ ob_start();
                             <li class="btn mt-4 btn-outline-secondary list-group-item border">
                                 <a href="index.php?action=login" class="text-dark">Se connecter</a>
                             </li>
-                        <?php } else { ?>
+
+                            <div>
+                                <li class="nav-item list-group-item mt-4">
+                                    <a class="nav-link" href="index.php">Home</a>
+                                </li>
+                            </div>
+                        <?php } else if ($user->getRole() == "auteur") { ?>
                             <li class="nav-item list-group-item mt-4">
                                 <a class="nav-link" href="index.php?action=my_wikis">Mes wikis</a>
                             </li>
                             <li class="nav-item list-group-item">
                                 <a class="nav-link" href="index.php?action=add_wiki">Crée un wiki</a>
                             </li>
-                            
-                            
-                        <?php  } ?>
-                        <div>
-                            <li class="nav-item list-group-item mt-4">
-                                <a class="nav-link" href="index.php">Home</a>
-                            </li>
-                            <li class="nav-item list-group-item">
-                                <a class="nav-link" href="index.php">Categories</a>
-                            </li>
-                            <li class="nav-item list-group-item">
-                                <a class="nav-link" href="index.php">Tags</a>
-                            </li>
-                        </div>
+                            <div>
+                                <li class="nav-item list-group-item mt-4">
+                                    <a class="nav-link" href="index.php">Home</a>
+                                </li>
+                            </div>
+
+                        <?php  } else { ?>
+                            <div>
+                                <li class="nav-item list-group-item mt-4">
+                                    <a class="nav-link" href="index.php">Home</a>
+                                </li>
+                                <li class="nav-item list-group-item">
+                                    <a class="nav-link" href="index.php">Categories</a>
+                                </li>
+                                <li class="nav-item list-group-item">
+                                    <a class="nav-link" href="index.php">Tags</a>
+                                </li>
+                                <li class="nav-item list-group-item">
+                                    <a class="nav-link" href="index.php">Auteurs</a>
+                                </li>
+                                <li class="nav-item list-group-item">
+                                    <a class="nav-link" href="index.php">Statistiques</a>
+                                </li>
+                            </div>
+
+
+                        <?php } ?>
+
                     </ul>
                 </div>
             </div>
@@ -51,7 +71,7 @@ ob_start();
         <div class="col-md-9">
             <div class="row">
                 <?php foreach ($wikis as $wiki) { ?>
-                    <div class="col-lg-4 col-md-6 mb-4" >
+                    <div class="col-lg-4 col-md-6 mb-4">
                         <div class="card shadow-sm">
                             <img src="<?= $wiki->getImg() ?>" class="card-img-top border" alt="Image 1" style="height: 200px !important">
                             <div class="card-body">
