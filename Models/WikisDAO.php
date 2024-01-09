@@ -77,7 +77,10 @@ class WikisDAO
             catg_name    
         ) VALUES (?,?,?,?,?)";
         $stmt = $this->db->prepare($query);
-        $stmt->execute([$wiki->getAuteur(), $wiki->getTitle(), $wiki->getContenu(), $wiki->getImg(), $wiki->getCatg()]);
+        $filtred_title = htmlspecialchars($wiki->getTitle());
+        $filtred_contenu = htmlspecialchars($wiki->getContenu());
+
+        $stmt->execute([$wiki->getAuteur(), $filtred_title, $filtred_contenu, $wiki->getImg(), $wiki->getCatg()]);
         $lastinsert = $this->db->lastInsertId();
         return $lastinsert;
     }
@@ -112,6 +115,8 @@ class WikisDAO
 
     public function edit_wiki($wiki_id, $title, $contenu, $catg, $img = NULL)
     {
+        $filtred_title = htmlspecialchars($title);
+        $filtred_contenu = htmlspecialchars($contenu);
         if ($img == NULL) {
             $query = "UPDATE `wikis` SET 
                 title = ?,
@@ -120,7 +125,7 @@ class WikisDAO
                 WHERE id = ?
             ";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$title, $contenu, $catg, $wiki_id]);
+            $stmt->execute([$filtred_title, $filtred_contenu, $catg, $wiki_id]);
         } else {
             $query = "UPDATE `wikis` SET 
             title = ?,
@@ -130,7 +135,7 @@ class WikisDAO
             WHERE id = ?
         ";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$title, $contenu, $img, $catg, $wiki_id]);
+            $stmt->execute([$filtred_title, $filtred_contenu, $img, $catg, $wiki_id]);
         }
 
         
