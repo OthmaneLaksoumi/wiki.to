@@ -14,8 +14,20 @@ class wikisController
 
     public static function affiche_all_wiki()
     {
+        $userDAO = new UsersDAO();
         $wikisDAO = new WikisDAO();
-        $wikis = $wikisDAO->get_all_wikis();
+
+        if (isset($_SESSION['user'])) {
+            $user = $userDAO->get_user_by_email($_SESSION['user']);
+            if ($user->getRole() == "admin") {
+                $wikis = $wikisDAO->get_all_wikis_for_admin();
+            } else {
+                $wikis = $wikisDAO->get_all_wikis();
+            }
+        } else {
+            $wikis = $wikisDAO->get_all_wikis();
+        }
+
         $tags = [];
         foreach ($wikis as $wiki) {
             $tags[$wiki->getId()] = array();
@@ -23,17 +35,14 @@ class wikisController
                 $tags[$wiki->getId()][] = $tag->getName();
             }
         }
-        $userDAO = new UsersDAO();
-        if(isset($_SESSION['user'])) $user = $userDAO->get_user_by_email($_SESSION['user']);
-
         include('Views/home.php');
     }
 
     public static function affiche_one_wiki()
     {
         $wikisDAO = new WikisDAO();
-        if ($wikisDAO->get_wiki_by_id($_GET['wiki_id']) == NULL) {
-            include('Views/wiki_not_found.php');
+        if ($wikisDAO->get_wiki_by_id($_GET['wiki_id']) == NULL) { // gestion de cas un wiki n'est pas existe
+            include('Views/wiki_not_found.php'); 
         } else {
             $wiki = $wikisDAO->get_wiki_by_id($_GET['wiki_id']);
             $user = $wiki->getAuteur();
@@ -164,5 +173,42 @@ class wikisController
         $wikisDAO->delete_wiki($wiki_id);
         header('location: index.php?action=my_wikis');
         exit();
+    }
+    public static function archive_wiki()
+    {
+        $wiki_id = $_GET['wiki_id'];
+        $wikisDAO = new WikisDAO();
+        $wikisDAO->archive_wiki($wiki_id);
+        header('location: index.php');
+        exit();
+    }
+
+    public static function dearchive_wiki()
+    {
+        $wiki_id = $_GET['wiki_id'];
+        $wikisDAO = new WikisDAO();
+        $wikisDAO->dearchive_wiki($wiki_id);
+        header('location: index.php');
+        exit();
+    }
+
+
+
+    public static function wikis_for_tag()
+    {
+        $tag_selected = $_GET['tag'];
+        $wikisDAO = new WikisDAO();
+        $wikis = $wikisDAO->get_wikis_for_tag($tag_selected);
+        $tags = [];
+        foreach ($wikis as $wiki) {
+            $tags[$wiki->getId()] = array();
+            foreach ($wikisDAO->get_tags_for_wiki($wiki->getId()) as $tag) {
+                $tags[$wiki->getId()][] = $tag->getName();
+            }
+        }
+        $userDAO = new UsersDAO();
+        if (isset($_SESSION['user'])) $user = $userDAO->get_user_by_email($_SESSION['user']);
+
+        include('Views/wikis_for_tag.php');
     }
 }

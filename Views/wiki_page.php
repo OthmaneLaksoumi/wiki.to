@@ -8,7 +8,7 @@ if (isset($_GET['wiki_id'])) {
 
   <div class="container mt-4">
     <div class="row">
-      
+
       <div class="col-md-8">
         <div class="card mb-4">
           <img src="<?= $wiki->getImg() ?>" class="card-img-top" alt="Blog Post Image">
@@ -31,7 +31,7 @@ if (isset($_GET['wiki_id'])) {
             <h5 class="card-title mt-4">Tags</h5>
             <ul class="list-group">
               <?php foreach ($tags as $tag) : ?>
-                <li class="list-group-item"><?= $tag->getName() ?></li>
+                <a href="index.php?action=wikis_for_tag&tag=<?= $tag->getName() ?>" class="text-secondary"><?= "#" . $tag->getName()?> </a>
               <?php endforeach; ?>
             </ul>
           </div>

@@ -9,8 +9,9 @@ class Wikis {
     private $img;
     private $catg;/* */
     private $created_at;
+    private $state;
 
-    public function __construct($id, $auteur, $title, $contenu, $img, $catg, $created_at) {
+    public function __construct($id, $auteur, $title, $contenu, $img, $catg, $created_at, $state = 1) {
         $this->id = $id;
         $this->auteur = $auteur;
         $this->title = $title;
@@ -18,6 +19,7 @@ class Wikis {
         $this->img = $img;
         $this->catg = $catg;
         $this->created_at = $created_at;
+        $this->state = $state;
     }
  
     public function getId()
@@ -53,6 +55,14 @@ class Wikis {
     public function getCreated_at()
     {
         return $this->created_at;
+    }
+
+    /**
+     * Get the value of state
+     */ 
+    public function getState()
+    {
+        return $this->state;
     }
 }
 

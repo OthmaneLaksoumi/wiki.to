@@ -11,7 +11,7 @@
 
         <div class="collapse navbar-collapse col-3 justify-content-around" id="navbarSupportedContent">
             <form class="col-6" role="search">
-                <input class="form-control me-2" type="search" placeholder="Recherche des wikis" aria-label="Search">
+                <input class="form-control me-2" type="search" id="search" placeholder="Recherche des wikis" aria-label="Search">
             </form>
             <?php if (!isset($_SESSION['user'])) { ?>
                 <ul class="navbar-nav ml-auto mb-2 mb-lg-0">

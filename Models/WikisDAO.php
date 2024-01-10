@@ -21,7 +21,7 @@ class WikisDAO
 
     public function get_all_wikis()
     {
-        $query = "SELECT * FROM `wikis`";
+        $query = "SELECT * FROM `wikis` WHERE `state` = 1";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         $wikis = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -31,6 +31,21 @@ class WikisDAO
             $user = $userDAO->get_user_by_id($wiki['auteur_id']);
             $catg = new Categories($wiki['catg_name']);
             $wikisObj[] = new Wikis($wiki['id'], $user, $wiki['title'], $wiki['contenu'], $wiki['img'], $catg, $wiki['created_at']);
+        }
+        return $wikisObj;
+    }
+
+    public function get_all_wikis_for_admin() {
+        $query = "SELECT * FROM `wikis`";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $wikis = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $wikisObj = array();
+        $userDAO = new UsersDAO();
+        foreach ($wikis as $wiki) {
+            $user = $userDAO->get_user_by_id($wiki['auteur_id']);
+            $catg = new Categories($wiki['catg_name']);
+            $wikisObj[] = new Wikis($wiki['id'], $user, $wiki['title'], $wiki['contenu'], $wiki['img'], $catg, $wiki['created_at'], $wiki['state']);
         }
         return $wikisObj;
     }
@@ -63,6 +78,23 @@ class WikisDAO
             $tagsObj[] = new Tags($tag['tag_name']);
         }
         return $tagsObj;
+    }
+
+    public function get_wikis_for_tag($tag) {
+        $query = "SELECT wikis.* FROM wikis
+        INNER JOIN wiki_tags ON wikis.id = wiki_tags.wiki_id
+        INNER JOIN tags ON wiki_tags.tag_name = tags.name
+        WHERE tags.name = ? AND wikis.state = 1";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$tag]);
+        $wikis = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $wikisObj = array();
+        foreach($wikis as $wiki) {
+            $wikisObj[] = new Wikis($wiki['id'], $wiki['auteur_id'], $wiki['title'], $wiki['contenu'], $wiki['img'], $wiki['catg_name'], $wiki['created_at']);
+        }
+
+        return $wikisObj;
+
     }
 
     public function add_wiki($wiki)
@@ -108,7 +140,7 @@ class WikisDAO
         $wikis = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $wikisObj = array();
         foreach ($wikis as $wiki) {
-            $wikisObj[] = new Wikis($wiki['id'], $wiki['auteur_id'], $wiki['title'], $wiki['contenu'], $wiki['img'], $wiki['catg_name'], $wiki['created_at']);
+            $wikisObj[] = new Wikis($wiki['id'], $wiki['auteur_id'], $wiki['title'], $wiki['contenu'], $wiki['img'], $wiki['catg_name'], $wiki['created_at'], $wiki['state']);
         }
         return $wikisObj;
     }
@@ -137,13 +169,25 @@ class WikisDAO
             $stmt = $this->db->prepare($query);
             $stmt->execute([$filtred_title, $filtred_contenu, $img, $catg, $wiki_id]);
         }
-
-        
     }
 
     public function delete_wiki($wiki_id)
     {
         $query = "DELETE FROM `wikis` WHERE `id` = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$wiki_id]);
+    }
+
+    public function archive_wiki($wiki_id)
+    {
+        $query = "UPDATE `wikis` SET `state` = 0 WHERE `id` = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$wiki_id]);
+    }
+
+    public function dearchive_wiki($wiki_id)
+    {
+        $query = "UPDATE `wikis` SET `state` = 1 WHERE `id` = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$wiki_id]);
     }

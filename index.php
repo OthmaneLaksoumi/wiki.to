@@ -1,5 +1,7 @@
 <?php
+
 namespace Controllers;
+
 session_start();
 
 require('autoloader.php');
@@ -44,6 +46,15 @@ if (isset($_GET['action'])) {
         case 'delete_wiki':
             WikisController::delete_wiki();
             break;
+        case 'archive_wiki':
+            wikisController::archive_wiki();
+            break;
+        case 'dearchive_wiki':
+            wikisController::dearchive_wiki();
+            break;
+        case 'wikis_for_tag':
+            wikisController::wikis_for_tag();
+            break;
         case 'affiche_catgs':
             CategoriesController::affiche_catgs();
             break;
@@ -68,7 +79,6 @@ if (isset($_GET['action'])) {
         case 'delete_tag':
             TagsController::delete_tag_action();
             break;
-        
     }
 } else {
     WikisController::affiche_all_wiki();

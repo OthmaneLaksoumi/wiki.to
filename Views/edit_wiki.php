@@ -50,8 +50,7 @@ if (isset($_SESSION['user']) && $user->getRole() == "auteur") {
 
             <div class="form-group my-4" id="tags-select">
                 <label for="tag">Tag:</label>
-                <!-- <select class="form-select mb-4" name="tag" id="tag"> -->
-                <!-- <option selected disabled>Ajoutez jusqu'à 4 tags</option> -->
+               
                 <div class="overflow-auto" style="max-height: 200px;">
                     <?php foreach ($tags as $i => $tag) : ?>
                         <?php if (in_array($tag, $tags_selected)) { ?>
@@ -67,7 +66,6 @@ if (isset($_SESSION['user']) && $user->getRole() == "auteur") {
                         <?php } ?>
                     <?php endforeach; ?>
                 </div>
-                <!-- </select> -->
             </div>
 
             <button type="submit" class="btn btn-success">Modifier</button>
@@ -78,32 +76,6 @@ if (isset($_SESSION['user']) && $user->getRole() == "auteur") {
 
     <?php $content = ob_get_clean(); ?>
     <?php include('Views/layout.php'); ?>
-
-    <script>
-        // let tagsSelect = document.getElementById('tags-select');
-
-        // let tags = document.getElementById('tag');
-        // let tagsSelect = document.getElementById('tags-select');
-
-        // tags.addEventListener('input', function() {
-        //     // console.log(this.value);
-        //     // let numberOfTags = ;
-
-        //    do {
-        //     let checkbox = document.createElement('div');
-        //     checkbox.innerHTML = `
-        //     <div class="form-check tag-checkbox">
-        //         <input class="form-check-input" type="checkbox" value="" id="${this.value}" checked>
-        //         <label class="form-check-label" for="${this.value}">${this.value}</label>
-        //     </div>
-        // `;
-
-        //     tagsSelect.appendChild(checkbox);
-        //    } while(document.querySelectorAll('.tag-checkbox').length < 4);
-
-        //     console.log(document.querySelectorAll('.tag-checkbox').length);
-        // });
-    </script>
 <?php } else {
     header('location: index.php');
 } ?>

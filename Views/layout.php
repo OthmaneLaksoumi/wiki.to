@@ -15,12 +15,12 @@
 
     <?php include('include/nav.php'); ?>
 
-    <?php if (!isset($_GET['wiki_id'])) : ?>
+    <?php if (!isset($_GET['wiki_id']) || $_GET['action'] == "edit_wiki") : ?>
         <div class="container mt-5">
             <div class="row">
 
                 <?php include('include/sidebar.php'); ?>
-                
+
     <?php endif; ?>
             <?= $content ?>
 
