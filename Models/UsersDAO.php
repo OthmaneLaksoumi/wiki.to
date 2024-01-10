@@ -61,7 +61,7 @@ class UsersDAO {
         $stmt = $this->db->prepare($query);
         $stmt->execute(array($email));
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        return new Users($user['user_id'], $user['email'], $user['name'], $user['password'], $user['role']);
+        return new Users($user['user_id'], $user['email'], $user['name'], $user['password'], $user['role'], $user['added_at']);
     }
 
     public function get_user_by_id($id) {
@@ -69,7 +69,7 @@ class UsersDAO {
         $stmt = $this->db->prepare($query);
         $stmt->execute(array($id));
         $user =  $stmt->fetch(PDO::FETCH_ASSOC);
-        $userr =  new Users($user['user_id'], $user['email'], $user['name'], $user['password'], $user['role']);
+        $userr =  new Users($user['user_id'], $user['email'], $user['name'], $user['password'], $user['role'], $user['added_at']);
         // return new Users($user['user_id'], $user['email'], $user['name'], $user['password'], $user['role']);;
         return $userr;
     }
@@ -83,7 +83,7 @@ class UsersDAO {
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $usersObj = array();
         foreach($users as $user) {
-            $usersObj[] = new Users($user['user_id'], $user['email'], $user['name'], $user['password'], $user['role']);
+            $usersObj[] = new Users($user['user_id'], $user['email'], $user['name'], $user['password'], $user['role'], $user['added_at']);
         }
         return $usersObj;
     }

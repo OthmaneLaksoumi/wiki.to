@@ -18,16 +18,15 @@
                             </div>
                         <?php } else if ($user->getRole() == "auteur") { ?>
                             <li class="nav-item list-group-item mt-4">
+                                    <a class="nav-link" href="index.php">Home</a>
+                                </li>
+                            <li class="nav-item list-group-item">
                                 <a class="nav-link" href="index.php?action=my_wikis">Mes wikis</a>
                             </li>
                             <li class="nav-item list-group-item">
                                 <a class="nav-link" href="index.php?action=add_wiki">Crée un wiki</a>
                             </li>
-                            <div>
-                                <li class="nav-item list-group-item mt-4">
-                                    <a class="nav-link" href="index.php">Home</a>
-                                </li>
-                            </div>
+                            
 
                         <?php  } else { ?>
                             <div>
@@ -41,10 +40,10 @@
                                     <a class="nav-link" href="index.php?action=affiche_tags">Tags</a>
                                 </li>
                                 <li class="nav-item list-group-item">
-                                    <a class="nav-link" href="index.php">Auteurs</a>
+                                    <a class="nav-link" href="index.php?action=affiche_auteurs">Auteurs</a>
                                 </li>
                                 <li class="nav-item list-group-item">
-                                    <a class="nav-link" href="index.php">Statistiques</a>
+                                    <a class="nav-link" href="index.php?action=affiche_statistics">Statistiques</a>
                                 </li>
                             </div>
 

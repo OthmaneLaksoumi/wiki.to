@@ -79,6 +79,12 @@ if (isset($_GET['action'])) {
         case 'delete_tag':
             TagsController::delete_tag_action();
             break;
+        case 'affiche_statistics':
+            loginController::affiche_statistics();
+            break;
+        case 'affiche_auteurs':
+            AuteursController::affiche_auteur();
+            break;
     }
 } else {
     WikisController::affiche_all_wiki();

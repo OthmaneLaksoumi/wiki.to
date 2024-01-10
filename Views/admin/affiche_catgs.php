@@ -11,6 +11,7 @@ if (isset($_SESSION['user']) && $user->getRole() == "admin") {
 
 
     <div class="col-md-9">
+        <h2 class="text-center">Categories</h2>
         <div class="text-center mb-3 d-flex flex-column justify-content-center affiche_input">
             <form action="index.php?action=add_catg" method="post" id="catg-form" class="display-noe">
                 <input type="text" class="form-control mx-auto my-3 border border-secondary" name="catg" style="width: 50%;" required>
