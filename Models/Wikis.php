@@ -22,6 +22,13 @@ class Wikis {
         $this->state = $state;
     }
  
+    public function toArray() {
+        $toArray = get_object_vars($this);
+        $toArray['auteur'] = $toArray['auteur']->toArray();
+        $toArray['catg'] = $toArray['catg']->toArray();
+        return $toArray;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -57,9 +64,7 @@ class Wikis {
         return $this->created_at;
     }
 
-    /**
-     * Get the value of state
-     */ 
+    
     public function getState()
     {
         return $this->state;

@@ -6,7 +6,7 @@ use PDO;
 use PDOException;
 
 
-require('autoloader.php');
+// require('autoloader.php');
 
 
 class WikisDAO
@@ -35,7 +35,8 @@ class WikisDAO
         return $wikisObj;
     }
 
-    public function get_all_wikis_for_admin() {
+    public function get_all_wikis_for_admin()
+    {
         $query = "SELECT * FROM `wikis`";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
@@ -80,21 +81,34 @@ class WikisDAO
         return $tagsObj;
     }
 
-    public function get_wikis_for_tag($tag) {
+    public function get_wikis_for_tag($tag, $state = 1)
+    {
         $query = "SELECT wikis.* FROM wikis
         INNER JOIN wiki_tags ON wikis.id = wiki_tags.wiki_id
         INNER JOIN tags ON wiki_tags.tag_name = tags.name
-        WHERE tags.name = ? AND wikis.state = 1";
+        WHERE tags.name = ? AND wikis.state = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->execute([$tag]);
+        $stmt->execute([$tag, $state]);
         $wikis = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $wikisObj = array();
-        foreach($wikis as $wiki) {
+        foreach ($wikis as $wiki) {
             $wikisObj[] = new Wikis($wiki['id'], $wiki['auteur_id'], $wiki['title'], $wiki['contenu'], $wiki['img'], $wiki['catg_name'], $wiki['created_at']);
         }
 
         return $wikisObj;
+    }
 
+    public function get_wikis_for_catg($catg) {
+        $query = "SELECT * FROM wikis WHERE `catg_name` = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$catg]);
+        $wikis = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $wikisObj = array();
+        foreach ($wikis as $wiki) {
+            $wikisObj[] = new Wikis($wiki['id'], $wiki['auteur_id'], $wiki['title'], $wiki['contenu'], $wiki['img'], $wiki['catg_name'], $wiki['created_at']);
+        }
+
+        return $wikisObj;
     }
 
     public function add_wiki($wiki)
@@ -124,7 +138,8 @@ class WikisDAO
         $stmt->execute([$wiki_id, $tag_name]);
     }
 
-    public function delete_wiki_tags($wiki_id) {
+    public function delete_wiki_tags($wiki_id)
+    {
         $query = "DELETE FROM `wiki_tags` WHERE wiki_id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$wiki_id]);
@@ -190,5 +205,10 @@ class WikisDAO
         $query = "UPDATE `wikis` SET `state` = 1 WHERE `id` = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$wiki_id]);
+    }
+
+    public function search_result()
+    {
+        
     }
 }

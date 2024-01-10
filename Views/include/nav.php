@@ -10,9 +10,15 @@
 
 
         <div class="collapse navbar-collapse col-3 justify-content-around" id="navbarSupportedContent">
-            <form class="col-6" role="search">
-                <input class="form-control me-2" type="search" id="search" placeholder="Recherche des wikis" aria-label="Search">
-            </form>
+            <?php if (str_ends_with($_SERVER['REQUEST_URI'], 'index.php') || (isset($_GET['action']) && $_GET['action'] == 'my_wikis')) : ?>
+                <form class="col-6" role="search">
+                    <input class="form-control me-2" type="search" id="search" placeholder="Recherche des wikis" aria-label="Search">
+                </form>
+            <?php else: ?>
+                <form class="col-6" role="search" style="visibility: hidden;">
+                    <input class="form-control me-2" type="search" id="search" placeholder="Recherche des wikis" aria-label="Search">
+                </form>
+            <?php endif; ?>
             <?php if (!isset($_SESSION['user'])) { ?>
                 <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
                     <li class="btn btn-outline-light">
@@ -27,8 +33,8 @@
                     <li class="btn btn-outline-light">
                         <a href="index.php?action=logout" class="text-dark" style="text-decoration: none;">Se déconnecter</a>
                     </li>
-                    <li class="btn btn-outline-light mx-2">
-                        <a href="index.php?action=logout" class="text-dark text-white" style="text-decoration: none;"><?= $_SESSION['user'] ?></a>
+                    <li class="btn text-light mx-2">
+                        <?= $_SESSION['user'] ?>
                     </li>
                 </ul>
             <?php } ?>

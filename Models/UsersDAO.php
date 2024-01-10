@@ -3,7 +3,7 @@ namespace Models;
 use PDO;
 use PDOException;
 
-require('autoloader.php');
+// require('autoloader.php');
 
 
 class UsersDAO {
