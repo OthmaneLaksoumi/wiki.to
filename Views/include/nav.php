@@ -10,9 +10,9 @@
 
 
         <div class="collapse navbar-collapse col-3 justify-content-around" id="navbarSupportedContent">
-            <?php if (str_ends_with($_SERVER['REQUEST_URI'], 'index.php') || (isset($_GET['action']) && $_GET['action'] == 'my_wikis')) : ?>
+            <?php if (str_ends_with($_SERVER['REQUEST_URI'], 'index.php') || (isset($_GET['action']) && ($_GET['action'] == 'my_wikis' || $_GET['action'] == 'wikis_for_tag'))) : ?>
                 <form class="col-6" role="search">
-                    <input class="form-control me-2" type="search" id="search" placeholder="Recherche des wikis" aria-label="Search">
+                    <input class="form-control me-2" type="search" id="search" placeholder="Recherche des wikis, tags, categories" aria-label="Search">
                 </form>
             <?php else: ?>
                 <form class="col-6" role="search" style="visibility: hidden;">

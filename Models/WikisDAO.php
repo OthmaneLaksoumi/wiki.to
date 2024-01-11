@@ -111,6 +111,22 @@ class WikisDAO
         return $wikisObj;
     }
 
+    public function get_last_wikis() {
+        $wikis = $this->get_all_wikis();
+        $current_date = strtotime(date("Y-m-d"));
+
+        $lastWikis = [];
+
+        foreach($wikis as $wiki) {
+            $wiki_date = strtotime($wiki->getCreated_at());
+            if($current_date - $wiki_date <= 3 * 24 * 60 *60) {
+                $lastWikis[] = $wiki;
+            }
+        }
+        return $lastWikis;
+        
+    }
+
     public function add_wiki($wiki)
     {
 
@@ -124,7 +140,7 @@ class WikisDAO
         ) VALUES (?,?,?,?,?)";
         $stmt = $this->db->prepare($query);
         $filtred_title = htmlspecialchars($wiki->getTitle());
-        $filtred_contenu = htmlspecialchars($wiki->getContenu());
+        $filtred_contenu = $wiki->getContenu();
 
         $stmt->execute([$wiki->getAuteur(), $filtred_title, $filtred_contenu, $wiki->getImg(), $wiki->getCatg()]);
         $lastinsert = $this->db->lastInsertId();
@@ -163,7 +179,6 @@ class WikisDAO
     public function edit_wiki($wiki_id, $title, $contenu, $catg, $img = NULL)
     {
         $filtred_title = htmlspecialchars($title);
-        $filtred_contenu = htmlspecialchars($contenu);
         if ($img == NULL) {
             $query = "UPDATE `wikis` SET 
                 title = ?,
@@ -172,7 +187,7 @@ class WikisDAO
                 WHERE id = ?
             ";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$filtred_title, $filtred_contenu, $catg, $wiki_id]);
+            $stmt->execute([$filtred_title, $contenu, $catg, $wiki_id]);
         } else {
             $query = "UPDATE `wikis` SET 
             title = ?,
@@ -182,7 +197,7 @@ class WikisDAO
             WHERE id = ?
         ";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$filtred_title, $filtred_contenu, $img, $catg, $wiki_id]);
+            $stmt->execute([$filtred_title, $contenu, $img, $catg, $wiki_id]);
         }
     }
 
@@ -207,8 +222,5 @@ class WikisDAO
         $stmt->execute([$wiki_id]);
     }
 
-    public function search_result()
-    {
-        
-    }
+   
 }

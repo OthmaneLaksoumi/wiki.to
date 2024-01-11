@@ -7,9 +7,6 @@ ob_start();
 
 <div class="col-md-9">
     <div class="row">
-        <?php if (!isset($_SESSION['user'])) : ?>
-            <h1 class="text-center mb-5">Derniers wikis:</h1>
-        <?php endif; ?>
         <?php foreach ($wikis as $wiki) { ?>
             <div class="col-lg-4 col-md-6 mb-4 wikis" id="<?= $wiki->getId() ?>">
                 <div class="card shadow-sm" style="height: 460px;">
@@ -38,12 +35,6 @@ ob_start();
                 </div>
             </div>
         <?php } ?>
-        <?php if (!isset($_SESSION['user'])) : ?>
-            <div class="text-center">
-                <a href="index.php?action=all_wikis" class="mb-5 btn btn-outline-secondary">Afficher tous les wikis</a>
-
-            </div>
-        <?php endif; ?>
 
     </div>
 </div>

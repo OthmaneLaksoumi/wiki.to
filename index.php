@@ -25,6 +25,9 @@ if (isset($_GET['action'])) {
         case 'logout':
             loginController::logout();
             break;
+        case 'all_wikis':
+            wikisController::affiche_all_wikis();
+            break;
         case 'wiki_page':
             WikisController::affiche_one_wiki();
             break;
@@ -87,5 +90,5 @@ if (isset($_GET['action'])) {
             break;
     }
 } else {
-    WikisController::affiche_all_wiki();
+    WikisController::last_wikis();
 }

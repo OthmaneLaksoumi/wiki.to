@@ -12,8 +12,33 @@ class wikisController
 {
 
 
-    public static function affiche_all_wiki()
+    public static function last_wikis()
     {
+        $userDAO = new UsersDAO();
+        $wikisDAO = new WikisDAO();
+
+        if (isset($_SESSION['user'])) {
+            $user = $userDAO->get_user_by_email($_SESSION['user']);
+            if ($user->getRole() == "admin") {
+                $wikis = $wikisDAO->get_all_wikis_for_admin();
+            } else {
+                $wikis = $wikisDAO->get_all_wikis();
+            }
+        } else {
+            $wikis = $wikisDAO->get_last_wikis();
+        }
+
+        $tags = [];
+        foreach ($wikis as $wiki) {
+            $tags[$wiki->getId()] = array();
+            foreach ($wikisDAO->get_tags_for_wiki($wiki->getId()) as $tag) {
+                $tags[$wiki->getId()][] = $tag->getName();
+            }
+        }
+        include('Views/home.php');
+    }
+
+    public static function affiche_all_wikis() {
         $userDAO = new UsersDAO();
         $wikisDAO = new WikisDAO();
 
@@ -35,7 +60,7 @@ class wikisController
                 $tags[$wiki->getId()][] = $tag->getName();
             }
         }
-        include('Views/home.php');
+        include('Views/all_wikis.php');
     }
 
     public static function affiche_one_wiki()
@@ -69,9 +94,6 @@ class wikisController
     {
         extract($_POST);
         extract($_FILES['img']);
-        echo '<pre>';
-        print_r($_POST);
-        echo '</pre>';
         $imageName = uniqid() . '.' . pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
         $userDAO = new UsersDAO();
         $user = $userDAO->get_user_by_email($_SESSION['user']);
@@ -143,10 +165,6 @@ class wikisController
     {
         extract($_POST);
         extract($_FILES);
-        // echo '<pre>';
-        // print_r($_POST);
-        // print_r($_FILES);
-        // echo '</pre>';
         $wikisDAO = new WikisDAO();
         $old_wiki = $wikisDAO->get_wiki_by_id($wiki_id);
         if ($_FILES['img']['name'] == "") {

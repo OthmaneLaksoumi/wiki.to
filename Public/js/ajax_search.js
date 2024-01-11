@@ -1,7 +1,6 @@
 let search_input = document.getElementById('search');
 
 let wikis = document.querySelectorAll('.wikis');
-
 search_input.addEventListener('input', function () {
     let myRequest = new XMLHttpRequest();
     myRequest.open("GET", "Public/ajax/ajax_search.php?search=" + search_input.value, true);
