@@ -5,8 +5,6 @@ use Models\WikisDAO;
 use Models\TagsDAO;
 use Models\CategoriesDAO;
 
-require('autoloader.php');
-
 
 class loginController {
 

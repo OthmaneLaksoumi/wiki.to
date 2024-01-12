@@ -98,7 +98,8 @@ class WikisDAO
         return $wikisObj;
     }
 
-    public function get_wikis_for_catg($catg) {
+    public function get_wikis_for_catg($catg)
+    {
         $query = "SELECT * FROM wikis WHERE `catg_name` = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$catg]);
@@ -111,20 +112,20 @@ class WikisDAO
         return $wikisObj;
     }
 
-    public function get_last_wikis() {
-        $wikis = $this->get_all_wikis();
-        $current_date = strtotime(date("Y-m-d"));
-
+    public function get_last_wikis()
+    {
+        $query = "SELECT * FROM `wikis` WHERE `state` = 1 AND created_at >= CURRENT_DATE() - 3";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $wikis = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $userDAO = new UsersDAO();
         $lastWikis = [];
-
-        foreach($wikis as $wiki) {
-            $wiki_date = strtotime($wiki->getCreated_at());
-            if($current_date - $wiki_date <= 3 * 24 * 60 *60) {
-                $lastWikis[] = $wiki;
-            }
+        foreach ($wikis as $wiki) {
+            $user = $userDAO->get_user_by_id($wiki['auteur_id']);
+            $catg = new Categories($wiki['catg_name']);
+            $lastWikis[] = new Wikis($wiki['id'], $user, $wiki['title'], $wiki['contenu'], $wiki['img'], $catg, $wiki['created_at']);
         }
         return $lastWikis;
-        
     }
 
     public function add_wiki($wiki)
@@ -221,6 +222,4 @@ class WikisDAO
         $stmt = $this->db->prepare($query);
         $stmt->execute([$wiki_id]);
     }
-
-   
 }

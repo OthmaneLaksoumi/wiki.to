@@ -11,7 +11,7 @@
     <script>
         tinymce.init({
             selector: 'textarea',
-            plugins: 'lists link',
+            plugins: 'lists link wordcount advlist',
             toolbar: 'undo redo | bold italic | bullist numlist | link image',
         });
     </script>

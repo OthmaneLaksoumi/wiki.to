@@ -13,7 +13,8 @@ if (isset($_SESSION['user']) && $user->getRole() == "auteur") {
 
 
 
-    <div class="col-md-9">
+    <div class="container">
+        <h2 class="my-5 text-center"><?= $wiki_selected->getTitle() ?></h2>
         <form action="index.php?action=edit_wiki_action" method="post" enctype="multipart/form-data">
             <input type="text" name="wiki_id" value="<?= $wiki_selected->getId(); ?>" hidden>
             <div class="mb-3 d-flex justify-content-center">

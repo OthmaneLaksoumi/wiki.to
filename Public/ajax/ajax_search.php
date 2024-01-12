@@ -1,88 +1,5 @@
 <?php
 
-
-
-// require_once("../../Models/db_config.php");
-
-// class database {
-//     private $db;
-
-//     public function __construct() {
-//         $this->db = new PDO("mysql:host=" . HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASSWORD);
-//     }
-
-//     public function getConnection() {
-//         return $this->db;
-//     }
-// }
-// class Wikis {
-//     private $id;
-//     private $auteur; 
-//     private $title;
-//     private $contenu;
-//     private $img;
-//     private $catg;
-//     private $created_at;
-//     private $state;
-
-//     public function __construct($id, $auteur, $title, $contenu, $img, $catg, $created_at, $state = 1) {
-//         $this->id = $id;
-//         $this->auteur = $auteur;
-//         $this->title = $title;
-//         $this->contenu = $contenu;
-//         $this->img = $img;
-//         $this->catg = $catg;
-//         $this->created_at = $created_at;
-//         $this->state = $state;
-//     }
-
-//     public function getId()
-//     {
-//         return $this->id;
-//     }
-
-//     public function getAuteur()
-//     {
-//         return $this->auteur;
-//     }
-
-//     public function getTitle()
-//     {
-//         return $this->title;
-//     }
-
-//     public function getContenu()
-//     {
-//         return $this->contenu;
-//     }
-
-//     public function getImg()
-//     {
-//         return $this->img;
-//     }
-
-//     public function getCatg()
-//     {
-//         return $this->catg;
-//     }
-
-//     public function getCreated_at()
-//     {
-//         return $this->created_at;
-//     }
-
-
-//     public function getState()
-//     {
-//         return $this->state;
-//     }
-// }
-
-
-// $db = new database();
-
-
-// namespace Models;
 use Models\WikisDAO;
 use Models\TagsDAO;
 use Models\CategoriesDAO;
@@ -95,11 +12,11 @@ $tagsDAO = new TagsDAO();
 $catgsDAO = new CategoriesDAO();
 $userDAO = new UsersDAO();
 
-if (isset($_GET['wiki_id'])) {
-    $id = $_GET['wiki_id'];
-    $wiki = $wikisDAO->get_wiki_by_id($id);
-    echo json_encode($wiki->toArray());
-}
+// if (isset($_GET['wiki_id'])) {
+//     $id = $_GET['wiki_id'];
+//     $wiki = $wikisDAO->get_wiki_by_id($id);
+//     echo json_encode($wiki->toArray());
+// }
 
 if (isset($_GET['search'])) {
     if ($_GET['search'] !== '') {
@@ -132,8 +49,7 @@ if (isset($_GET['search'])) {
             if (stristr($tag->getName(), $search)) {
                 $wikis_for_tags = array_merge($wikisDAO->get_wikis_for_tag($tag->getName(), 0), $wikisDAO->get_wikis_for_tag($tag->getName(), 1));
                 foreach ($wikis_for_tags as $wiki) {
-                    $json_result[] = $wiki->getId();
-                }
+                    $json_result[] = $wiki->getId();                }
             }
         }
 
@@ -147,9 +63,5 @@ if (isset($_GET['search'])) {
         }
 
         echo json_encode($json_result);
-        // echo $user->getRole();
     }
-    // else {
-    //     echo false;
-    // }
 }

@@ -6,7 +6,6 @@ namespace Controllers;
 use Models\UsersDAO;
 use Models\TagsDAO;
 
-require('autoloader.php');
 
 class TagsController {
     
